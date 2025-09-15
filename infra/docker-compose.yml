@@ -6,6 +6,6 @@ services:
       - ./deploy:/tf/deploy
     working_dir: /tf
     environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_ACCESS_KEY_ID=AKIAV4ZZKKPAAW2E65MF
+      - AWS_SECRET_ACCESS_KEY=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
       - AWS_DEFAULT_REGION=me-central-1
