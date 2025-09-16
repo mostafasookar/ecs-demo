@@ -32,7 +32,7 @@ resource "aws_security_group" "rds" {
 }
 
 resource "aws_db_instance" "main" {
-  identifier                 = "${local.prefix}-db"
+  identifier                 = "${lower(local.prefix)}-db"  # Convert prefix to lowercase
   db_name                    = "marquez"
   allocated_storage          = 20
   storage_type               = "gp3"
