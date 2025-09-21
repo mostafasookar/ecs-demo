@@ -32,7 +32,7 @@ resource "aws_security_group" "rds" {
 }
 
 resource "aws_db_instance" "main" {
-  identifier                 = "${lower(local.prefix)}-db"  # Convert prefix to lowercase
+  identifier                 = substr("a${replace(lower(local.prefix), "/[^a-z0-9-]/", "-")}-db", 0, 63)
   db_name                    = "marquez"
   allocated_storage          = 20
   storage_type               = "gp3"
