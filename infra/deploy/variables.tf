@@ -19,6 +19,8 @@ variable "db_username" {
 }
 
 variable "db_password" {
-  description = "Password for the Terraform database"
+  type        = string
+  description = "Database master password"
+  default     = "SecurePass123!"  # Example allowed password
 }
 
