@@ -21,6 +21,6 @@ variable "db_username" {
 variable "db_password" {
   type        = string
   description = "Database master password"
-  default     = "SecurePass123!"  # Example allowed password
+  default     = SecurePass123
 }
 
