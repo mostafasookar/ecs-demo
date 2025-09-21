@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "devops-ecs-adcb"
+    bucket         = "devops-ecs-adcb-2025"
     key            = "tf-state-setup"
     region         = "me-central-1"
     encrypt        = true
