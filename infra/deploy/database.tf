@@ -32,7 +32,7 @@ resource "aws_security_group" "rds" {
 }
 
 resource "aws_db_instance" "main" {
-  identifier                 = substr("a${regexreplace(lower(local.prefix), "[^a-z0-9-]", "-")}-db", 0, 63)
+  identifier                 = "pgadmin-marquez-db"
   db_name                    = "marquez"
   allocated_storage          = 20
   storage_type               = "gp3"
@@ -49,6 +49,6 @@ resource "aws_db_instance" "main" {
   vpc_security_group_ids     = [aws_security_group.rds.id]
 
   tags = {
-    Name = "${local.prefix}-main"
+    Name = "pgadmin-marquez-db"
   }
 }
