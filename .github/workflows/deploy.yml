@@ -48,14 +48,12 @@ jobs:
           TF_VAR_django_secret_key: ${{ secrets.TF_VAR_DJANGO_SECRET_KEY }}
           TF_VAR_marquez_api_app: ${{ vars.TF_VAR_MARQUEZ_API_APP }}:$GITHUB_SHA
           TF_VAR_marquez_web_app: ${{ vars.TF_VAR_MARQUEZ_WEB_APP }}:$GITHUB_SHA
-          TF_WORKSPACE: ${{ github.ref == 'refs/heads/prod' && 'prod' || 'staging' }}
+          TF_WORKSPACE: staging
         run: |
-          workspace=${{ github.ref == 'refs/heads/prod' && 'prod' || 'staging' }}
-          echo "Using workspace: $workspace"
+          echo "Using workspace: staging"
           echo "TF_WORKSPACE outside container: $TF_WORKSPACE"
           cd infra/
           docker compose run --rm --entrypoint /bin/sh terraform -c "cd deploy; echo 'TF_WORKSPACE inside container (deploy): \$TF_WORKSPACE'"
           docker compose run --rm terraform -chdir=deploy init
           docker compose run --rm terraform -chdir=deploy workspace list
-          docker compose run --rm terraform -chdir=deploy workspace select -or-create $workspace
           docker compose run --rm terraform -chdir=deploy apply -auto-approve
