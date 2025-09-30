@@ -14,5 +14,3 @@ services:
       - TF_VAR_django_secret_key=${TF_VAR_django_secret_key}
       - TF_VAR_marquez_api_app=${TF_VAR_marquez_api_app}
       - TF_VAR_marquez_web_app=${TF_VAR_marquez_web_app}
-
-

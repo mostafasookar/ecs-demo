@@ -22,20 +22,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set vars
+      - name: Debug Variables
         run: |
-          if [[ $GITHUB_REF == 'refs/heads/prod' ]]; then
-            echo "prod" > .workspace
-          else
-            echo "staging" > .workspace
-          fi
-
-      - name: Debug Workspace
-        run: |
-          echo "Workspace file content:"
-          cat .workspace
-          echo "TF_WORKSPACE: $TF_WORKSPACE"
           echo "GITHUB_REF: $GITHUB_REF"
+          echo "TF_VAR_MARQUEZ_API_APP: ${{ vars.TF_VAR_MARQUEZ_API_APP }}"
+          echo "TF_VAR_MARQUEZ_WEB_APP: ${{ vars.TF_VAR_MARQUEZ_WEB_APP }}"
           env | sort
 
       - name: Push to ECR
@@ -57,13 +48,17 @@ jobs:
           TF_VAR_django_secret_key: ${{ secrets.TF_VAR_DJANGO_SECRET_KEY }}
           TF_VAR_marquez_api_app: ${{ vars.TF_VAR_MARQUEZ_API_APP }}:$GITHUB_SHA
           TF_VAR_marquez_web_app: ${{ vars.TF_VAR_MARQUEZ_WEB_APP }}:$GITHUB_SHA
-          TF_WORKSPACE: $(cat .workspace)
+          TF_WORKSPACE: ${{ github.ref == 'refs/heads/prod' && 'prod' || 'staging' }}
         run: |
-          workspace=$(cat .workspace)
+          workspace=${{ github.ref == 'refs/heads/prod' && 'prod' || 'staging' }}
           echo "Using workspace: $workspace"
+          echo "TF_WORKSPACE outside container: $TF_WORKSPACE"
           cd infra/
+          docker compose run --rm terraform -chdir=setup sh -c "echo 'TF_WORKSPACE inside container: \$TF_WORKSPACE'"
           docker compose run --rm terraform -chdir=setup init
           docker compose run --rm terraform -chdir=setup apply -auto-approve
+          docker compose run --rm terraform -chdir=deploy sh -c "echo 'TF_WORKSPACE inside container: \$TF_WORKSPACE'"
           docker compose run --rm terraform -chdir=deploy init
+          docker compose run --rm terraform -chdir=deploy workspace list
           docker compose run --rm terraform -chdir=deploy workspace select -or-create $workspace
           docker compose run --rm terraform -chdir=deploy apply -auto-approve
