@@ -1,11 +1,11 @@
 variable "prefix" {
   description = "Prefix for resources in AWS"
-  default     = "pgadmin and marquez"
+  default     = "pgadmin-marquez"
 }
 
 variable "project" {
   description = "Project name for tagging resources"
-  default     = "pgadmin and marquez"
+  default     = "pgadmin-marquez"
 }
 
 variable "contact" {
@@ -21,6 +21,7 @@ variable "db_username" {
 variable "db_password" {
   type        = string
   description = "Database master password"
+  default     = "SecurePass1238"
   sensitive   = true
 }
 

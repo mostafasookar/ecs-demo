@@ -25,7 +25,7 @@ resource "aws_iam_role" "app_task" {
 }
 
 resource "aws_iam_policy" "task_ssm_policy" {
-  name        = "${local.prefix}-task-ssm-role-policy"
+  name        = "${local.prefix}-ssm-policy"
   path        = "/"
   description = "Policy to allow System Manager to execute in container"
   policy      = file("./templates/ecs/task-ssm-policy.json")
@@ -37,7 +37,7 @@ resource "aws_iam_role_policy_attachment" "task_ssm_policy" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_task_logs" {
-  name = "${local.prefix}-api"
+  name = "${local.prefix}-logs"
 }
 
 resource "aws_ecs_cluster" "main" {

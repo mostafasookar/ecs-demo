@@ -262,7 +262,7 @@ resource "aws_ecs_task_definition" "api" {
     [
       {
         name              = "marquez-api"
-        image             = var.marquez-api-app
+        image             = var.marquez_api_app
         essential         = true
         memoryReservation = 256
         user              = "django-user"
@@ -315,7 +315,7 @@ resource "aws_ecs_task_definition" "api" {
       },
       {
         name              = "marquez-web-proxy"
-        image             = var.marquez-web-app
+        image             = var.marquez_web_app
         essential         = true
         memoryReservation = 256
         user              = "nginx"
@@ -902,20 +902,20 @@ variable "db_username" {
 variable "db_password" {
   type        = string
   description = "Database master password"
-  default     = "SecurePass1238"
+  sensitive   = true
 }
 
-
-variable "marquez-web-app" {
-  description = "Path to the ECR repo with the proxy image"
-}
-
-variable "marquez-api-app" {
+variable "marquez_api_app" {
   description = "Path to the ECR repo with the API image"
+}
+
+variable "marquez_web_app" {
+  description = "Path to the ECR repo with the proxy image"
 }
 
 variable "django_secret_key" {
   description = "Secret key for Django"
+  sensitive   = true
 }
 
 variable "dns_zone_name" {
@@ -926,7 +926,6 @@ variable "dns_zone_name" {
 variable "subdomain" {
   description = "Subdomain for each environment"
   type        = map(string)
-
   default = {
     prod    = "api"
     staging = "api.staging"
