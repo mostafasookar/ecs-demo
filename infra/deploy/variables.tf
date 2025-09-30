@@ -21,20 +21,20 @@ variable "db_username" {
 variable "db_password" {
   type        = string
   description = "Database master password"
-  default     = "SecurePass1238"
+  sensitive   = true
 }
 
-
-variable "marquez-web-app" {
-  description = "Path to the ECR repo with the proxy image"
-}
-
-variable "marquez-api-app" {
+variable "marquez_api_app" {
   description = "Path to the ECR repo with the API image"
+}
+
+variable "marquez_web_app" {
+  description = "Path to the ECR repo with the proxy image"
 }
 
 variable "django_secret_key" {
   description = "Secret key for Django"
+  sensitive   = true
 }
 
 variable "dns_zone_name" {
@@ -45,7 +45,6 @@ variable "dns_zone_name" {
 variable "subdomain" {
   description = "Subdomain for each environment"
   type        = map(string)
-
   default = {
     prod    = "api"
     staging = "api.staging"

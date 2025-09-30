@@ -57,7 +57,7 @@ resource "aws_ecs_task_definition" "api" {
     [
       {
         name              = "marquez-api"
-        image             = var.marquez-api-app
+        image             = var.marquez_api_app
         essential         = true
         memoryReservation = 256
         user              = "django-user"
@@ -110,7 +110,7 @@ resource "aws_ecs_task_definition" "api" {
       },
       {
         name              = "marquez-web-proxy"
-        image             = var.marquez-web-app
+        image             = var.marquez_web_app
         essential         = true
         memoryReservation = 256
         user              = "nginx"
