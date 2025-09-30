@@ -54,10 +54,10 @@ jobs:
           echo "Using workspace: $workspace"
           echo "TF_WORKSPACE outside container: $TF_WORKSPACE"
           cd infra/
-          docker compose run --rm terraform sh -c "echo 'TF_WORKSPACE inside container (setup): \$TF_WORKSPACE'" --chdir=setup
+          docker compose run --rm --entrypoint /bin/sh terraform -c "cd setup; echo 'TF_WORKSPACE inside container (setup): \$TF_WORKSPACE'"
           docker compose run --rm terraform -chdir=setup init
           docker compose run --rm terraform -chdir=setup apply -auto-approve
-          docker compose run --rm terraform sh -c "echo 'TF_WORKSPACE inside container (deploy): \$TF_WORKSPACE'" --chdir=deploy
+          docker compose run --rm --entrypoint /bin/sh terraform -c "cd deploy; echo 'TF_WORKSPACE inside container (deploy): \$TF_WORKSPACE'"
           docker compose run --rm terraform -chdir=deploy init
           docker compose run --rm terraform -chdir=deploy workspace list
           docker compose run --rm terraform -chdir=deploy workspace select -or-create $workspace
