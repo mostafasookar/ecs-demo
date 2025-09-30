@@ -30,6 +30,14 @@ jobs:
             echo "staging" > .workspace
           fi
 
+      - name: Debug Workspace
+        run: |
+          echo "Workspace file content:"
+          cat .workspace
+          echo "TF_WORKSPACE: $TF_WORKSPACE"
+          echo "GITHUB_REF: $GITHUB_REF"
+          env | sort
+
       - name: Push to ECR
         env:
           AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID }}
@@ -52,6 +60,7 @@ jobs:
           TF_WORKSPACE: $(cat .workspace)
         run: |
           workspace=$(cat .workspace)
+          echo "Using workspace: $workspace"
           cd infra/
           docker compose run --rm terraform -chdir=setup init
           docker compose run --rm terraform -chdir=setup apply -auto-approve
