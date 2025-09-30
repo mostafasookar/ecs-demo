@@ -54,14 +54,6 @@ jobs:
           echo "Using workspace: $workspace"
           echo "TF_WORKSPACE outside container: $TF_WORKSPACE"
           cd infra/
-          docker compose run --rm --entrypoint /bin/sh terraform -c "cd setup; echo 'TF_WORKSPACE inside container (setup): \$TF_WORKSPACE'"
-          docker compose run --rm terraform -chdir=setup init
-          # Import existing resources to avoid recreation errors
-          docker compose run --rm terraform -chdir=setup import aws_ecr_repository.marquez-api-app marquez-api-app || true
-          docker compose run --rm terraform -chdir=setup import aws_ecr_repository.marquez-web-app marquez-web-app || true
-          docker compose run --rm terraform -chdir=setup import aws_ecr_repository.pgadmin-app pgadmin-app || true
-          docker compose run --rm terraform -chdir=setup import aws_iam_user.cd recipe-app-api-cd || true
-          docker compose run --rm terraform -chdir=setup apply -auto-approve
           docker compose run --rm --entrypoint /bin/sh terraform -c "cd deploy; echo 'TF_WORKSPACE inside container (deploy): \$TF_WORKSPACE'"
           docker compose run --rm terraform -chdir=deploy init
           docker compose run --rm terraform -chdir=deploy workspace list
