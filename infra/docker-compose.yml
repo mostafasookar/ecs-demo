@@ -12,7 +12,7 @@ services:
       - TF_WORKSPACE=${TF_WORKSPACE}
       - TF_VAR_db_password=${TF_VAR_db_password}
       - TF_VAR_django_secret_key=${TF_VAR_django_secret_key}
-      - TF_VAR_ecr_proxy_image=${TF_VAR_marquez-web-app}
-      - TF_VAR_ecr_app_image=${TF_VAR_marquez-api-app}
+      - TF_VAR_marquez_api_app=${TF_VAR_marquez_api_app}
+      - TF_VAR_marquez_web_app=${TF_VAR_marquez_web_app}
 
 
